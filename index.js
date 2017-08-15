@@ -21,7 +21,8 @@ io.on('connection', socket => {
     socket.on('CLIENT_SIGN_UP', username => {
         const isEsixt = arrUsername.indexOf(username) > -1;
         if (isEsixt) return socket.emit('PICK_ANOTHER_USERNAME');
-        arrUsername.push(username);
         socket.emit('SIGN_UP_SUCCESSFULLY', arrUsername);
+        arrUsername.push(username);
+        io.emit('NEW_USER_SIGN_UP', username);
     });
 });

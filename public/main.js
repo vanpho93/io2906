@@ -9,6 +9,7 @@ socket.on('SIGN_UP_SUCCESSFULLY', arrUsername => {
     $('#div-dang-ky').hide();
 
     arrUsername.forEach(username => $('#ul-username').append(`<li>${username}</li>`));
+    socket.on('NEW_USER_SIGN_UP', username => $('#ul-username').append(`<li>${username}</li>`));
 });
 
 $('#btn-dang-ky').click(() => {
