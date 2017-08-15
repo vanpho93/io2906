@@ -12,5 +12,8 @@
   },
   "devDependencies": {
     "reload": "^2.2.1"
+  },
+  "scripts": {
+    "start": "nodemon index.js -e js,ejs"
   }
 }
