@@ -1,4 +1,5 @@
 const express = require('express');
+const reload = require('reload');
 
 const app = express();
 
@@ -13,3 +14,5 @@ app.get('/', (req, res) => res.render('home'));
 server.listen(3000, () => console.log('Server started!'));
 
 io.on('connection', socket => console.log(socket.id));
+
+reload(app);
