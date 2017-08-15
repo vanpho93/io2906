@@ -21,8 +21,19 @@ io.on('connection', socket => {
     socket.on('CLIENT_SIGN_UP', username => {
         const isEsixt = arrUsername.indexOf(username) > -1;
         if (isEsixt) return socket.emit('PICK_ANOTHER_USERNAME');
+        socket.username = username; //1
         socket.emit('SIGN_UP_SUCCESSFULLY', arrUsername);
         arrUsername.push(username);
         io.emit('NEW_USER_SIGN_UP', username);
+    });
+
+    socket.on('CLIENT_SEND_MESSAGE', message => {
+        io.emit('NEW_MESSAGE', `${socket.username}: ${message}`);
+    });
+
+    socket.on('disconnect', () => {
+        const index = arrUsername.indexOf(socket.username);
+        if (index > -1) arrUsername.splice(index, 1);
+        io.emit('USER_DISCONNECT', socket.username);
     });
 });
