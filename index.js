@@ -31,6 +31,10 @@ io.on('connection', socket => {
         io.emit('NEW_MESSAGE', `${socket.username}: ${message}`);
     });
 
+    socket.on('CLIENT_SEND_PRIVATE_MESSAGE', messageObj => {
+        console.log(messageObj);
+    });
+
     socket.on('disconnect', () => {
         const index = arrUsername.indexOf(socket.username);
         if (index > -1) arrUsername.splice(index, 1);

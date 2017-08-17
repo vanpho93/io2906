@@ -1,4 +1,5 @@
 const socket = io();
+let receiver;
 
 $('#div-chat').hide();
 
@@ -20,6 +21,18 @@ $('#btn-dang-ky').click(() => {
 $('#btn-send').click(() => {
     const message = $('#txt-message').val();
     socket.emit('CLIENT_SEND_MESSAGE', message);
+});
+
+$('#btn-send-private').click(() => {
+    const message = $('#txt-message').val();
+    socket.emit('CLIENT_SEND_PRIVATE_MESSAGE', { message, receiver });
+});
+
+// $('#ul-message li').click(() => console.log('a'));
+$('#ul-username').on('click', 'li', function() { 
+    receiver = $(this).text();
+    $('#ul-username li').removeClass('active');
+    $(this).addClass('active');
 });
 
 socket.on('NEW_MESSAGE', message => $('#ul-message').append(`<li>${message}</li>`));
