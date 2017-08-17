@@ -42,6 +42,8 @@ io.on('connection', socket => {
     });
 
     socket.on('CLIENT_JOIN_ROOM', roomName => {
+        if (socket.roomName) socket.leave(socket.roomName);
+        socket.roomName = roomName;
         socket.join(roomName);
     });
 
