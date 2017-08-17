@@ -29,6 +29,11 @@ $('#btn-send-private').click(() => {
     socket.emit('CLIENT_SEND_PRIVATE_MESSAGE', { message, receiver });
 });
 
+$('#btn-send-room').click(() => {
+    const message = $('#txt-message').val();
+    socket.emit('CLIENT_SEND_ROOM_MESSAGE', { message, roomName });
+});
+
 // $('#ul-message li').click(() => console.log('a'));
 $('#ul-username').on('click', 'li', function() { 
     receiver = $(this).text();
@@ -40,12 +45,16 @@ $('#ul-room li').click(function() {
     roomName = $(this).text();
     $('#ul-room li').removeClass('active');
     $(this).addClass('active');
+    socket.emit('CLIENT_JOIN_ROOM', roomName);
 });
 
 socket.on('NEW_MESSAGE', message => $('#ul-message').append(`<li>${message}</li>`));
 
 socket.on('NEW_PRIVATE_MESSAGE', message => $('#ul-message').append(`<li style="color: green">${message}</li>`));
 
+socket.on('NEW_ROOM_MESSAGE', message => $('#ul-message').append(`<li style="color: blue">${message}</li>`));
+
 socket.on('USER_DISCONNECT', username => {
     $(`#xsocketuser-${username}`).remove();
 });
+

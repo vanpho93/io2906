@@ -41,6 +41,15 @@ io.on('connection', socket => {
         socket.emit('NEW_PRIVATE_MESSAGE', `${socket.username}: ${message}`);
     });
 
+    socket.on('CLIENT_JOIN_ROOM', roomName => {
+        socket.join(roomName);
+    });
+
+    socket.on('CLIENT_SEND_ROOM_MESSAGE', (messageObj) => {
+        const { roomName, message } = messageObj;
+        io.in(roomName).emit('NEW_ROOM_MESSAGE', `${socket.username}: ${message}`);
+    });
+
     socket.on('disconnect', () => {
         const index = arrUsername.indexOf(socket.username);
         if (index > -1) arrUsername.splice(index, 1);
