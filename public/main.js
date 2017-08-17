@@ -1,5 +1,6 @@
 const socket = io();
 let receiver;
+let roomName;
 
 $('#div-chat').hide();
 
@@ -32,6 +33,12 @@ $('#btn-send-private').click(() => {
 $('#ul-username').on('click', 'li', function() { 
     receiver = $(this).text();
     $('#ul-username li').removeClass('active');
+    $(this).addClass('active');
+});
+
+$('#ul-room li').click(function() {
+    roomName = $(this).text();
+    $('#ul-room li').removeClass('active');
     $(this).addClass('active');
 });
 
