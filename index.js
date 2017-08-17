@@ -16,6 +16,7 @@ reload(app);
 
 //arrUsername
 const arrUsername = [];
+const arrSignedSocket = [];
 
 io.on('connection', socket => {
     socket.on('CLIENT_SIGN_UP', username => {
@@ -24,6 +25,7 @@ io.on('connection', socket => {
         socket.username = username; //1
         socket.emit('SIGN_UP_SUCCESSFULLY', arrUsername);
         arrUsername.push(username);
+        arrSignedSocket.push(socket);
         io.emit('NEW_USER_SIGN_UP', username);
     });
 
@@ -32,7 +34,11 @@ io.on('connection', socket => {
     });
 
     socket.on('CLIENT_SEND_PRIVATE_MESSAGE', messageObj => {
-        console.log(messageObj);
+        const { message, receiver } = messageObj;
+        const receiverSocket = arrSignedSocket.find(s => s.username === receiver);
+        socket.to(receiverSocket.id)
+            .emit('NEW_PRIVATE_MESSAGE', `${socket.username}: ${message}`);
+        socket.emit('NEW_PRIVATE_MESSAGE', `${socket.username}: ${message}`);
     });
 
     socket.on('disconnect', () => {

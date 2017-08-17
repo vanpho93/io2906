@@ -37,6 +37,8 @@ $('#ul-username').on('click', 'li', function() {
 
 socket.on('NEW_MESSAGE', message => $('#ul-message').append(`<li>${message}</li>`));
 
+socket.on('NEW_PRIVATE_MESSAGE', message => $('#ul-message').append(`<li style="color: green">${message}</li>`));
+
 socket.on('USER_DISCONNECT', username => {
     $(`#xsocketuser-${username}`).remove();
 });
